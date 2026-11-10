@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.ropepanic.constructionrun",
+      "sha256_cert_fingerprints": [
+        "15:04:B6:D6:C5:19:0F:FA:F1:C3:02:41:CF:9B:EF:63:BB:0A:95:32:0D:14:8C:ED:99:F6:36:87:5A:D3:BF:81"
+      ]
+    }
+  }
+]

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta property="og:title" content="Join a Rope Panic race">
+<meta property="og:description" content="Open Rope Panic to join the host's multiplayer room.">
+<title>Join a Rope Panic race</title>
+<style>
+  :root { color-scheme: dark; font: 17px/1.55 system-ui, sans-serif; color: #fff1ce; background: #101b21; }
+  body { margin: 0; padding: 24px; min-height: 100svh; box-sizing: border-box; display: grid; place-items: center; }
+  main { width: min(100%, 420px); box-sizing: border-box; border-radius: 24px; padding: 28px; background: #1a353b; }
+  h1 { margin: 0; color: #ffce64; font-size: 2.3rem; line-height: 1.05; }
+  p { margin: 18px 0; }
+  a { display: block; padding: 13px; border-radius: 12px; text-align: center; font-weight: 800; color: #101b21; background: #ffce64; }
+  [hidden] { display: none; }
+</style>
+<main>
+  <h1>ROPE PANIC!</h1>
+  <p id="status">Open the full invitation sent by the race host.</p>
+  <a id="open-game" hidden>Open Rope Panic</a>
+  <p id="fallback" hidden>If your messenger blocks the button, open this page in your browser. You can also enter the room code in Multiplayer.</p>
+</main>
+<script>
+  const route = location.hash.slice(1);
+  const online = /^join\/([a-z0-9]{4,12})$/i.exec(route);
+  const local = /^lan\/((?:[0-9]{1,3}\.){3}[0-9]{1,3})\/([0-9]{1,5})$/.exec(route);
+  let destination, code;
+  if (online) {
+    code = online[1].toUpperCase();
+    destination = 'join/' + code;
+  } else if (local && local[1].split('.').every(octet => Number(octet) <= 255) &&
+             Number(local[2]) >= 1 && Number(local[2]) <= 65535) {
+    code = local[1] + ':' + local[2];
+    destination = route;
+  }
+  if (destination) {
+    const button = document.getElementById('open-game');
+    button.href = 'ropepanic://race/' + destination;
+    button.hidden = false;
+    document.getElementById('status').textContent = 'Multiplayer invitation · Room ' + code;
+    document.getElementById('fallback').hidden = false;
+  }
+</script>
+</html>
